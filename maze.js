@@ -92,6 +92,20 @@ goal.image.src = "mä.png";
 const meImage = new Image();
 meImage.src = "me.png";
 
+let imagesLoaded = 0;
+const totalImages = 3; // Kuva-arvojen määrä (player, goal, meImage)
+
+function checkImagesLoaded() {
+    imagesLoaded++;
+    if (imagesLoaded === totalImages) {
+        drawMaze();
+    }
+}
+
+player.image.onload = checkImagesLoaded;
+goal.image.onload = checkImagesLoaded;
+meImage.onload = checkImagesLoaded;
+
 function drawMaze() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     const level = levels[currentLevel];
