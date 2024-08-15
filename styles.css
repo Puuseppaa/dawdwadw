@@ -1,0 +1,545 @@
+html {
+    touch-action: manipulation;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: pink;
+    color: brown;
+    margin: 0;
+    padding: 0;
+    overscroll-behavior: contain;
+}
+
+header {
+    background-color: red;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    position: relative;
+}
+
+#menuButton {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background-color: brown;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav li {
+    background-color: red;
+    margin: 0.5em 0;
+    text-align: center;
+}
+
+nav li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 1em;
+}
+
+.hidden {
+    display: none;
+}
+
+.content-section {
+    padding: 2em;
+}
+
+#mapContainer {
+    width: 100%;
+    height: 300px;
+    background-color: lightgrey;
+}
+
+#loveTestForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#loveTestForm label {
+    font-weight: bold;
+}
+
+#loveTestForm input {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#resultContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.heart {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    background-image: url('1234.png'); /* Korvaa oikealla polulla sydämen kuvaan */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.percentage-text {
+    color: white;
+    font-weight: bold;
+    font-size: 50px;
+    transform: rotate(0);
+    position: absolute;
+    text-align: center;
+}
+
+#customMessage {
+    display: none;
+    margin-top: 20px;
+}
+
+#mazeCanvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh; /* Korkeus täyteen näkymään */
+}
+
+#mazeCanvas {
+    display: block;
+    border: 2px solid black;    
+}
+
+#arrowControls {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#arrowControls img {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+
+#completed img {
+    width: 200px;
+    height: 250spx;
+    display: block;
+    margin-top: -200px;
+}
+
+#completionMessage {
+    display: block;
+    padding: 5px;
+    width: 150%;
+    margin-top: 100px;
+    font-size: 30px;
+}
+
+#completed {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    text-align: center;
+    margin-top: 250px;
+}
+
+#mazeCanvas.hidden, #arrowControls.hidden {
+    display: none;
+}
+
+.small-heart {
+    width: 30px;
+    height: auto;
+    position: absolute;
+    animation: fall 2s forwards;
+}
+
+.falling-text {
+    font-size: 24px;
+    color: white;
+    position: absolute;
+    animation: fall 2s forwards;
+}
+
+#heartsClickerContainer img {
+    width: 200px;
+    height: auto;
+    cursor: pointer;
+    animation: pulse 1s infinite alternate;
+}
+
+#heartsClickerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes fall {
+    from {
+        transform: translateY(-100%);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+#pongCanvas {
+    border: 2px solid black;
+    background-color: #000;
+}
+
+#pongContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 400px; /* Tai mitä korkeutta haluat */
+}
+
+#paddleSlider {
+    width: 100%;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Music Player Styles */
+#musiikkiSoitin *{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+#musiikkiSoitin .container{
+    width: 100%;
+    height: 100vh;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#musiikkiSoitin .music-player{
+    background: #ffe0e5;
+    width: 400px;
+    padding: 25px 35px;
+    text-align: center;
+}
+
+#musiikkiSoitin nav{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+#musiikkiSoitin nav .circl{
+    border-radius: 5%;
+    width: 0px;
+    height: 40px;
+    line-height: 40px;
+    background: #fff;
+    color: #f53192;
+    box-shadow: 0 5px 10px rgba(255, 26, 26, 0.22);
+}
+
+#musiikkiSoitin .song-img{
+    width: 150px;
+    height: 300px;
+    border-radius: 40%;
+    border: px solid #fff;
+    box-shadow: 0 20px 60px rgbs(255, 26, 26, 0.22);
+}
+
+#musiikkiSoitin .music-player h1{
+    font-size: 20px;
+    font-weight: 400;
+    color: #333;
+    margin-top: 20px;
+}
+
+#musiikkiSoitin .music-player p{
+    font-size: 14px;
+    color: #333;
+}
+
+#musiikkiSoitin #progress{
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #f53192;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 40px 0;
+}
+
+#musiikkiSoitin #progress::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    background: #f53192;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 8px solid #fff;
+    box-shadow: 0 5px 5px rgba(255, 26, 26, 0.22);
+}
+
+#musiikkiSoitin .controls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#musiikkiSoitin .controls div{
+    width: 60px;
+    height: 60px;
+    margin: 20px;
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #f53192;
+    box-shadow: 0 10px 20px rgba(255, 26, 26, 0.22);
+    cursor: pointer;
+}
+
+#musiikkiSoitin .controls div:nth-child(2){
+    transform: scale(1.5);
+    background: #f53192;
+    color: #fff;
+}
+
+.accordion {
+    border: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+.accordion-button {
+    background-color: #ff0400; /* Vaaleanpunainen taustaväri painikkeelle */
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    color: #ffffff; /* Tumma vaaleanpunainen tekstiväri painikkeelle */
+}
+
+/* Avattavan osion sisällön laatikot */
+.accordion-content {
+    background-color: #f07467; /* Vaaleanpunainen taustaväri laatikolle */
+    color: #333; /* Tumma teksti laatikolle */
+    display: none;
+    overflow: hidden;
+    padding: 10px;
+    border-top: 1px solid #d62c77; /* Tumma vaaleanpunainen reunus */
+}
+
+.envelope-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 100px); /* Kolme saraketta */
+    grid-auto-rows: 100px;
+    row-gap: -10000px; /* Väli kirjekuorien välillä Y-suunnassa */
+    column-gap: 30px; /* Väli kirjekuorien välillä X-suunnassa */
+    justify-content: center;
+
+}
+
+.envelope-container {
+    position: relative;
+    width: 100px; /* Muuta tarvittaessa */
+    height: 200px; /* Lisää korkeus kirjekuoren sisällölle */
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.envelope-closed {
+    width: 100%;
+    height: auto;
+    transition: opacity 0.5s;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.envelope-open {
+    width: 100%;
+    height: auto;
+    transition: opacity 0.5s;
+    position: absolute;
+    top: -40px;
+    left: 0;
+}
+
+.envelope-open {
+    opacity: 0; /* Piilota avoin kirjekuori aluksi */
+}
+
+.envelope.open .envelope-closed {
+    opacity: 0; /* Piilota kiinni oleva kirjekuori kun se on avattu */
+}
+
+.envelope.open .envelope-open {
+    opacity: 1; /* Näytä avoin kirjekuori kun se on avattu */
+}
+
+
+.content {
+    display: none;
+    position: absolute; /* Position relative to the envelope container */
+    bottom: -100px; /* Fixed offset from the bottom of the envelope container */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    width: 300%; /* Adjust as needed */
+    max-width: 300px; /* Adjust as needed */
+    height: 200px;
+    background: #fff;
+    border: 2px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 2; /* Ensure the text is above other elements */
+}
+
+
+.envelope.open + .content {
+    display: block;
+    opacity: 1;
+}
+
+.envelope img {
+    width: 100%;
+    height: auto;
+    display: block; /* Varmistaa, että kuvat eivät aiheuta ylimääräistä tilaa */
+    margin: 0; /* Poista marginaali */
+    padding: 0; /* Poista padding */
+}
+
+.love-message {
+    font-size: 16px;
+    color: #000;
+    margin-top: 10px;
+  }
+  
+ /* Container for folder sections */
+.container {
+    text-align: center;
+}
+
+/* Folder sections */
+.folder-section {
+    margin-bottom: 50px;
+}
+
+.folder-icon {
+    width: 100px;
+    cursor: pointer;
+}
+
+/* Lightbox styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.lightbox-content {
+    position: relative;
+    margin: auto;
+    max-width: 80%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lightbox-content img {
+    width: 100%;
+    height: auto;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: #fff;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    width: auto;
+    height: 50px;
+    padding: 16px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.prev {
+    left: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.home-image{
+display: block;
+margin: 20px auto;
+max-width: 100%;
+height: auto;
+}
