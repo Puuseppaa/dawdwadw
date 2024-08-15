@@ -20,6 +20,11 @@ menuItems.forEach(function(item) {
     });
 });
 
+function showSection(id) {
+    console.log('Showing section:', id);
+    // Implement section display logic here
+  }
+
 // Rakkaustesti logiikka
 document.getElementById('loveTestForm').addEventListener('submit', function(e) {
     e.preventDefault();
