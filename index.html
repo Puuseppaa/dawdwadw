@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rakastan sua!</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+
+        #arrowControls {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #arrowControls img {
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .content-section {
+            padding: 2em;
+        }
+
+        #completed img {
+            width: 200px;
+            height: 250px;
+            display: block;
+            margin: 5px auto;
+        }
+
+        #completionMessage {
+            display: block;
+            margin: 5px auto;
+            padding: 5px;
+            width: 100%;
+            font-size: 30px;
+        }
+
+        #heartsClickerContainer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #heartsClickerContainer img {
+            width: 400px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .hearts {
+            position: absolute;
+            animation: fall 2s forwards;
+        }
+
+        .small-hearts {
+            width: 30px;
+            height: auto;
+            position: absolute;
+            animation: fall 2s forwards;
+        }
+
+        .falling-text {
+            position: absolute;
+            font-size: 24px;
+            color: white;
+            animation: fall 2s forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(400px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        #pongCanvas {
+            margin: 0 auto;
+            display: block;
+            border: 2px solid black;
+            background-color: #000;
+        }
+
+        #pongContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 400px; /* Tai mitä korkeutta haluat */
+        }
+
+        #paddleSlider {
+            width: 100%;
+            margin-top: 10px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #startButton{
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: #0095DD;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #gameOverScreen {
+            display: none;
+            text-align: center;
+        }
+
+        #gameOverScreen img {
+            width: 200px;
+        }
+
+        #gameOverScreen p {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        #restartButton {
+            display: none;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: #0095DD;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #restartButtonVictory {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Rakkaussivu rakkaimmalle</h1>   
+        <button id="menuButton">Valikko</button>
+    </header>
+    
+    <nav id="menu" class="hidden">
+        <ul>
+            <li><a href="#home">Etusivu</a></li>
+            <li><a href="#gallery">Kuvia</a></li>
+            <li><a href="#messages">Viestejä rakkaalle</a></li>
+            <li><a href="#loveTest">Rakkaustesti</a></li> 
+            <li><a href="#maze">Labyrinttipeli</a></li> 
+            <li><a href="#heartsClicker">Sydän Klikkeri</a></li> 
+            <li><a href="#pongGame">AntonTuhoamisPalloPeli</a></li> 
+            <li><a href="#musiikki.html">Kuuntele kivaa musiikkia, jotka oon valinnut ;D</a></li>
+    </nav>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="home" class="content-section">
+            <h2>Rakas hyvää syntymäpäivää</h2>
+            <p>Rakas mä tiiän tää on aika outo juttu ja paska lahja, mutta tää on sulle rakas mun synttärilahja! Emmä nyt tiiä mikä tän idea on mutta sä voit kattella tätä sivua ainaaaa. Paina tuolta ylhäältä valikkoa ni pääset tekee niin paljon kaikee kivaa ja hupsua ;D Oot rakas maailman paras tyttöystävä, rakastan sua kuuhun ja takasin miljoonia tsiljoonia kertoja! Sä et menetä mua ikinä.</p>
+            <img src="Birthdaykuva.png" alt="Syntymäpäiväkuva" class="home-image">
+        </section>
+
+        <section id="moreInfo" class="content-section hidden">
+            <h2>Lisä tietoja</h2>
+            <p>Kirjoita tähän lisää tietoja.</p>
+        </section>
+
+        <section id="messages" class="content-section hidden">
+            <h2>Viestejä rakkaalle</h2>
+            <p>.</p>
+            <div class="envelope-grid">
+                <div class="envelope-container" data-content="content1">
+                    <div class="envelope" onclick="toggleContent('content1')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content1"> 
+                        <p>Rakas jee sä luet tätä nyt🤭 Muista rakas, että oot mun ikuisesti. Mä en aio luovuttaa meidän suhteen koska se on aivan surku ajatus elää ilman sua ja mielummin kuolisin, ku että niin kävis. Tein rakas tän nettisivun sulle, koska rakastan sua maailman eniten ja haluun osottaa sen sulle jotenkinnnn😭❤️ Rakastan sua muru maailman eniten! Oot maailman rakkain pupu</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content2">
+                    <div class="envelope" onclick="toggleContent('content2')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content2">
+                        <p>Pöö rakas sä säikähdit hassu makkaraperuna!! Mä täällä kirjotan näitä ku sä kuorsaat niin, että koko maa tärisee :DDDD Rakas pliis älä unohda mun olemassa oloa. Yritän olla sulle aina parasta maailmassa vaikka epäonnistuisin siinä. Mä en aio menettää sua, koska rakastan sua maailman eniten ja niin se on ihan ihan aina rakas!!</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content3">
+                    <div class="envelope" onclick="toggleContent('content3')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content3">
+                        <p>Rakas muista oikeesti, että sä oot mulle maailman tärkein ja rakkain ihminen koko maailmassa! Mä en aio koskaan jättää sua, koska mä rakastan sua ikuisesti ja haluun olla sun kanssa ihan sama mistä hinnasta vaan😭❤️ Onneks sä oot rakas olemassa, rakastan sua ihan äärettömän paljon etkä voi koskaan tajuta sitä määrää oikeesti!!! Kiitos että oot mun rakas.</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content4">
+                    <div class="envelope" onclick="toggleContent('content4')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content4">
+                        <p>Mieti et sä oot mun tyttöystävä ikuisesti🤭 Oon jo täysin valmistautunut siihen, että me ollaan ikuisesti yhdessä! Mä kuules vaikka laitan sut käsiraudoilla muhun kiinni ettet pääse mua pakoon koskaan😭😘 Oot mulle niin niin rakas. Oot mulle maailman lempparein ihminen aina ja kallein ja arvokkain ja tärkein aarre! Oon onnekas et saan olla sun kaa rakas, rakastan sua maaaaaailmannn enitennnn!</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content5">
+                    <div class="envelope" onclick="toggleContent('content5')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content5">
+                        <p>Heissulivei rakas arva mitä arvaa mitä!! Mulla on sua maailman kovin ikävä😢 Mieti, että me ollaan oltu jo niin kauan yhdessä, ei se voi tuntua mitenkään todeltaaaa. Mut rakas tää aika sun kanssa on ollut maailman parasta, en oo ikinä ollu nii ilonen ku nyt sun ansiosta! Kiitos rakas, että oot olemassa, rakastan sua nii paljon😭❤️ Sä oot mun rakkain ihminen aina rakas, oot mun aarre!</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content6">
+                    <div class="envelope" onclick="toggleContent('content6')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content6">
+                       <p>Pöö kukkuu rakasss, sulla on tänää synttärit ku mä annan tän tyhmän homman sulle😭 Muista rakas aina, että teen aivan kaiken sun hyväksi jotta sulla olis hyvä olla koska oot mulle maailman rakkain ja tärkein ihminen aina!!!! Mä haluun olla aina sun enkä mä kuule koskaan suostu lähtemään sun elämästä. Mä varastan sut sit🤭</p>
+                    </div>
+
+                </div>
+                <div class="envelope-container" data-content="content7">
+                    <div class="envelope" onclick="toggleContent('content7')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content8">
+                        <p>Rakas kohta mä oon takasin sun luona ja sit me halitaan ja seikkaillaan niin paljon, että sä oikeen kyllästyt muhunnn😭😭 Okei pliis rakas älä kyllästy se olis paha😭 Mä en ainakaa kyllästy suhun rakas ja siitä oon varma koska rakastan sua tosi tosi tosi tosi paljon!! Sä oot mun makkaraperuna😂😂 Sä oot raasu ku sanon noin😂😂😂😂</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content8">
+                    <div class="envelope" onclick="toggleContent('content8')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content8">
+                        <p>Rakas arvaa mitä, nyt ku kirjotan tätä ni sä oot kuorsaamassa tosi tosi paljonn!😂😂 Maa oikeen tärisee täällä asti ja maapallo on kohta poissa radalta😂😂😂😂😂😂 Oikeesti sua on rakas nii hassua härnätä valillä😭😭😭😭 Anteeks oikeesti. Rakas mulla on sua ikävä, toivottavasti tiiät että rakastan sua niiii paljonnnn😭😭❤️</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content9">
+                    <div class="envelope" onclick="toggleContent('content9')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content9">
+                        <p>Mieti sitä, että sä oot mun vaimo kohta ja jos sä sanot ei ni se automaattisesti on JOO koska mä en hyväksy muuta vastausta😏 Mä en ehkä kestä sit ku nään sut siinä valkosessa mekossa siellä kävelemässä😭😭 Sä oot rakas maailman kaunein ihminen koko maailmassa aina eikä vastaväätteitä ikinä rakas, oot mun rakkain pupunen ainaaa!!!</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content10">
+                    <div class="envelope" onclick="toggleContent('content10')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content10">
+                        <p>HAHAHAHHAHA rakas mä syön sut kohta ku me nähdään😭😭 Mä aion nuoleskella sut sillee että sua ei ees enää nää😂😂 Anteeks mut se olis nii kivaa oikeestiiiiii!! Sä maistut maaailman parhaimmalta ja sä tiiät sen itekkiinn. Mä sähisen sulle jos oot eri mieltä😂😭😭 Voiko kissat sanoa “KÄÄÄÄÄK” ku ne pelkää sua ku sä kiljut niille😭😂 Kerrrrro mulle rakass</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content11">
+                    <div class="envelope" onclick="toggleContent('content11')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content11">
+                        <p>Rakas mä oon batman😂😂 MYÖNNÄ ETTÄ MÄ OON AIVAN KU BATMAN JA OON SELLANEN RÄYYYY😂😂😭 Mieti ne on lepakoita ja ne vaa lentää tosi korkealla taivaassa korkealla😭😭 Yhtä korkealla ku sä eli muurahaisten korkeudessa😂😂😂😂 Oikeesti anteeks rakas mä vaa kiusaan sua😭😭😭😭 Anteeks rakas, oikeesti rakastan sua maailman eniten ikuisesti!!!</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content12">
+                    <div class="envelope" onclick="toggleContent('content12')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content12">
+                        <p>Rakas sä oot maailman paras tyttöystävä aina!! ❤️😭😭 Rakas mulla on sua maailman suurin ikävä juuri nyttt ja mä oon niin niin surku että tekee mieli posahtaa tosi tosi kovaa😭😭 Onneks tiiän että pääsen sun luo rakas vuoden päästä halimaan ja pussailemaan puuuhun! Mieti sit me päästään rakas taas sinne kalliolle halimaan tosi tosi paljonnnnnnnnn😭❤️
+                        </p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content13">
+                    <div class="envelope" onclick="toggleContent('content13')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content13">
+                        <p>Rakaasaassss sun pitää tietää että rakastan sua maailman eniten aina!! Mä en oikeesti luovuta koskaan sun kanssa missään asioissa koska haluun olla sun kanssa aina ja ikuisesti jopaaaa kummituksinaa❤️😭 Mieti ku voi leijua taivaalla sun kanssa ja sit me lennetään KUUHUN asti ja sit voidaa pomppia siellä ja sit sä kaadut ja sanot AUUU😂😂</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content14">
+                    <div class="envelope" onclick="toggleContent('content14')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content14">
+                        <p>AHHH tollee sä sanot ku näät antonin karvaisen pikku kalun😂😂😂😂 Oikeesti mä en pääse yli siitä ku se on leakattu😂😂 Maailman ällöttävin asia rakas, onneks sä puhdistat mun mielen siitä tyhmästä karvapallo😂😂😂😂😂😂😂😂 Rakas ei oo oikeesti enää kauaa et me nähään, mä lupaan, sit me tehdään vaikka mitä kivaa yhdessä ikuisesti!!!!</p>
+                    </div>
+                </div>
+                <div class="envelope-container" data-content="content15">
+                    <div class="envelope" onclick="toggleContent('content15')">
+                        <img src="Envelopeclosed.png" alt="Closed Envelope" class="envelope-closed">
+                        <img src="Envelopeopened.png" alt="Open Envelope" class="envelope-open">
+                    </div>
+                    <div class="content" id="content15">
+                        <p>Rakasss mä lupaan rakastaa sua aina maailman eniten ja mä lupaaaaan suojella sun sydäntä aina!!! Mä suojelen sitä vaikka mä ite kuolisin sen eteen että sä olisit turvassa rakasssssss❤️😭😭 Tänää on aivan surku päivä koska on niin kova ikäväää että mun sydän kuolee ikävästä ja seki vaa sykkii sun takia rakass, koska ilman sua ei oo ees planeettaaa!</p>
+                    </div>
+                </div>
+        </section>
+
+        <section id="loveTest" class="content-section hidden">
+            <h2>Rakkaustesti</h2>
+            <form id="loveTestForm">
+                <label for="name1">Nimi 1:</label>
+                <input type="text" id="name1" required>
+                <label for="name2">Nimi 2:</label>
+                <input type="text" id="name2" required>
+                <button type="submit">Laske</button>
+            </form>
+            <div id="resultContainer">
+                <div id="result" class="heart hidden">
+                    <div class="percentage-text"></div>
+                </div>
+                <textarea id="customMessage" rows="4" cols="50"></textarea>
+            </div>
+        </section>
+
+        <section id="maze" class="content-section hidden">
+            <h2>Labyrinttipeli</h2>
+            <canvas id="mazeCanvas" width="400  " height="400"></canvas>
+            <div id="arrowControls">
+                <img src="Up.png" id="arrowUp" alt="Up">
+                <br>
+                <img src="Left.png" id="arrowLeft" alt="Left">
+                <img src="Down.png" id="arrowDown" alt="Down">
+                <img src="Right.png" id="arrowRight" alt="Right">
+            </div>
+            <div id="completed" class="hidden">
+                <img src="me.png" alt="Me">
+                <p id="completionMessage">Onneksi olkoon! Sä oot rakas maailman paras pelaaja, sä saat multa paljon haleja nytttt🤭 Mä rutistan sut HAHAHAHAH!</p>
+            </div>
+        </section>
+
+
+        <section id="heartsClicker" class="content-section hidden">
+            <h2>Sydän Klikkeri</h2>
+            <div id="heartsClickerContainer">
+                <img src="1234.png" alt="1234" onclick="generateHeart(event)">
+                <p class="heart-text">Toi sydän on rakas mun, ja se sykkii vaan sulle! HIHIHIHIHIHIHI</p>
+                <p class="heart-text">Jos sä rakas rämpytät sitä ni tapahtuu jänniä!</p>
+            </div>
+        </section>
+
+        <section id="pongGame" class="content-section hidden">
+            <h2>AntonTuhoamisPalloPeli</h2>
+            <button id="startButton">Aloita peli</button>
+            <div id="gameOverScreen">
+                <img src="Häviö.png" alt="Häviö">
+                <p>Sinä hävisit. Joudut antamaan Antonille nyt puhelinnumerosi.</p>
+                <button id="restartButton">Aloita alusta</button>
+            </div>
+            <div id="victoryScreen">
+                <p>Onneksi olkoon, tuhosit tyhmän Antonin! Nyt sun ei tarvii antaa sille sun numeroa ja voit vaa pussata mua❤️🤭😘</p>
+                <img src="Me.png" alt="Voitto">
+                <button id="restartButtonVictory">Pelaa uudelleen</button>
+            </div>
+            <div id="pongContainer">
+                <canvas id="pongCanvas" width="400" height="400" class="hidden"></canvas>
+            </div>
+            <input type="range" id="paddleSlider" min="0" max="400" value="200" class="hidden">
+        </section>
+
+        <section id="musiikki" class="content-section hidden">
+            <h2>Kuuntele kivaa musiikkia, jotka oon valinnut ;D</h2>
+            <div id="musiikkiContent"></div>
+        </section>
+
+        <section id="gift" class="content-section hidden">
+            <h2>Hyvää syntymäpäivää rakas!</h2>
+        </section>
+        
+        <section id="gallery" class="content-section hidden">
+            <h2>Kuvia sulle rakas, paina noita kuvia ni saat enemmän kuviaaa!!</h2>
+            <div class="container">
+                <!-- Folder 1 -->
+                <div class="folder-section">
+                    <h2>Pupu kuvia</h2>
+                    <div class="folder" onclick="openLightbox(0)">
+                        <img src="folder1-icon.jpg" alt="Open Gallery 1" class="folder-icon">
+                    </div>
+                </div>
+        
+                <!-- Folder 2 -->
+                <div class="folder-section">
+                    <h2>Kissa kuvia</h2>
+                    <div class="folder" onclick="openLightbox(1)">
+                        <img src="folder2-icon.jpg" alt="Open Gallery 2" class="folder-icon">
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Lightbox for Gallery 1 -->
+            <div id="lightbox-0" class="lightbox">
+                <span class="close" onclick="closeLightbox(0)">&times;</span>
+                <div class="lightbox-content">
+                    <img id="lightbox-image-0" src="" alt="Gallery Image">
+                    <a class="prev" onclick="changeImage(0, -1)">&#10094;</a>
+                    <a class="next" onclick="changeImage(0, 1)">&#10095;</a>
+                </div>
+            </div>
+        
+            <!-- Lightbox for Gallery 2 -->
+            <div id="lightbox-1" class="lightbox">
+                <span class="close" onclick="closeLightbox(1)">&times;</span>
+                <div class="lightbox-content">
+                    <img id="lightbox-image-1" src="" alt="Gallery Image">
+                    <a class="prev" onclick="changeImage(1, -1)">&#10094;</a>
+                    <a class="next" onclick="changeImage(1, 1)">&#10095;</a>
+                </div>
+            </div>
+
+        </section>
+        
+
+    </main>
+
+    <script src="script.js"></script>
+    <script src="maze.js"></script>
+    <script src="pong.js"></script> 
+    <script src="viestit.js"></script> 
+    <script>
+        function generateHeart(event) {
+        
+            for (let i = 0; i < 100; i++) {
+                const smallHearts = document.createElement('img');
+                smallHearts.src = '1234small.png';
+                smallHearts.classList.add('small-heart');
+                smallHearts.style.left = `${event.clientX - 10 + Math.random() * 200}px`; // Satunnainen sijainti
+                smallHearts.style.top = `${event.clientY + Math.random() * 400}px`; // Satunnainen sijainti
+                document.body.appendChild(smallHearts);
+
+                smallHearts.addEventListener('animationend', () => {
+                    smallHearts.remove();
+                });
+            }
+         
+        
+        const fallingText = document.createElement('div');
+            fallingText.textContent = 'Rakastan sua!';
+            fallingText.classList.add('falling-text');
+            fallingText.style.left = `${event.clientX - 50}px`; // Säädä sijaintia suhteessa klikkaukseen
+            fallingText.style.top = `${event.clientY}px`; // Säädä sijaintia suhteessa klikkaukseen
+            document.body.appendChild(fallingText);
+
+            // Poista tippuva teksti animaation lopussa
+            fallingText.addEventListener('animationend', () => {
+                fallingText.remove();
+            });
+    }
+    </script>
+
+
+<script>
+    // Korjattu showSection-funktio
+    function showSection(sectionId) {
+        // Piilota kaikki osiot
+        var sections = document.querySelectorAll('.content-section');
+        sections.forEach(function(section) {
+            section.style.display = 'none';
+        });
+
+        // Näytä valittu osio
+        var selectedSection = document.getElementById(sectionId);
+        if (selectedSection) {
+            selectedSection.style.display = 'block';
+        }
+    }
+
+ 
+        
+        
+
+    var menuLinks = document.querySelectorAll('#menu a');
+menuLinks.forEach(function(link) {
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        var sectionId = link.getAttribute('href').substring(1);
+
+        if (sectionId !== 'musiikki.html') {
+            showSection(sectionId);
+        } else {
+            window.location.href = 'musiikki.html';
+        }
+    });
+});
+</script>
+
+<script>
+// Arrays of image sources for each gallery
+const galleryImages = [
+    ['pupu3.jpg', 'pupu8.jpg', 'pupu9.jpg', 'pupu10.jpg', 'pupu11.jpg','pupu13.jpg', 'pupu14.jpg', 'pupu18.jpg'],
+    ['kissa1.jpg', 'kissa2.jpg', 'kissa3.jpg', 'kissa4.jpg', 'kissa5.jpg', 'kissa6.jpg', 'kissa10.jpg', 'kissa11.jpg', 'kissa13.jpg', 'kissa14.jpg','kissa16.jpg', 'kissa18.jpg', 'kissa19.jpg', 'kissa20.jpg'], // Gallery 2 images
+];
+
+let currentIndexes = [0, 0, 0]; // Keep track of current index for each gallery
+
+// Function to open lightbox
+function openLightbox(galleryIndex) {
+    document.getElementById(`lightbox-${galleryIndex}`).style.display = 'block';
+    showImage(galleryIndex, currentIndexes[galleryIndex]);
+}
+
+// Function to close lightbox
+function closeLightbox(galleryIndex) {
+    document.getElementById(`lightbox-${galleryIndex}`).style.display = 'none';
+}
+
+// Function to change image
+function changeImage(galleryIndex, direction) {
+    currentIndexes[galleryIndex] += direction;
+    if (currentIndexes[galleryIndex] >= galleryImages[galleryIndex].length) currentIndexes[galleryIndex] = 0;
+    if (currentIndexes[galleryIndex] < 0) currentIndexes[galleryIndex] = galleryImages[galleryIndex].length - 1;
+    showImage(galleryIndex, currentIndexes[galleryIndex]);
+}
+
+// Function to display the current image
+function showImage(galleryIndex, imageIndex) {
+    document.getElementById(`lightbox-image-${galleryIndex}`).src = galleryImages[galleryIndex][imageIndex];
+}
+
+</script>
+
+
+</body>
+</html>
